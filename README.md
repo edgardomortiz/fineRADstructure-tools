@@ -1,5 +1,5 @@
 # fineRADstructure-tools
-Tools for data conversion and results visualization for fineRADstructure for fineRADstructure (http://cichlid.gurdon.cam.ac.uk/fineRADstructure.html)
+Tools for data conversion and results visualization for fineRADstructure (http://cichlid.gurdon.cam.ac.uk/fineRADstructure.html)
 
 ## Tool 1: finerad_input.py
 Type `python finerad_input.py -h` to show the help:
@@ -27,19 +27,19 @@ optional arguments:
                         .minsample + .finerad
 ```
 
-_Example 1:_ Convert the .alleles.loci matrix from ipyrad and exclude loci with less than 8 samples:
+_Example 1:_ Convert the `.alleles.loci` matrix from ipyrad and exclude loci with less than 8 samples:
 ```
 python finerad_input.py --input example_data.alleles.loci --minsample 8
 984 loci for 12 samples written to example_data.alleles.loci.min8.finerad
 ```
 
-_Example 2:_ Convert the .haplotypes.tsv matrix from Stacks, exclude loci with 4 samples or less and specify name of output matrix:
+_Example 2:_ Convert the `.haplotypes.tsv` matrix from Stacks, exclude loci with 4 samples or less and specify name of output matrix:
 ```
 python finerad_input.py -i batch_1.haplotypes.tsv -n 4 --output stacks_finerad_min4.finerad
 152181 loci for 37 samples written to stacks_finerad_min4.finerad
 ```
 
-_Example 3:_ Convert the .alleles matrix from pyrad with default options:
+_Example 3:_ Convert the `.alleles` matrix from pyrad with default options:
 ```
 python finerad_input.py -i pyrad_data.alleles
 13007 loci for 170 samples written to pyrad_data.alleles.min2.finerad
