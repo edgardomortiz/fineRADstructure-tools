@@ -46,10 +46,9 @@ $ python finerad_input.py -i pyrad_data.alleles
 ```
 
 ## References
-**Malinsky, M., E. Trucchi, D. Lawson & D. Falush. 2016.** RADpainter and fineRADstructure: population inference from RADseq data. _bioRxiv_. doi:https://doi.org/10.1101/057711
-
-A description of `fineRADstructure` and links to other relevant papers is available at: http://cichlid.gurdon.cam.ac.uk/fineRADstructure.html  
-`fineRADstructure` code is available at: https://github.com/millanek/fineRADstructure
+- **Malinsky, M., E. Trucchi, D. Lawson & D. Falush. 2016.** RADpainter and fineRADstructure: population inference from RADseq data. _bioRxiv_. doi:https://doi.org/10.1101/057711
+- A description of `fineRADstructure` and links to other relevant papers is available at: http://cichlid.gurdon.cam.ac.uk/fineRADstructure.html  
+- `fineRADstructure` code is available at: https://github.com/millanek/fineRADstructure
 
 ## Credits
 - Code: [Edgardo M. Ortiz](mailto:e.ortiz.v@gmail.com)
