@@ -170,7 +170,7 @@ def main():
 	elif "stacks" in data_type.lower() or "haplotypes.tsv" in filename:
 		stacks_to_finerad(filename, outfile, minsample)
 	else:
-		"Unknown input format, use -h for help"
+		print "Unknown input format, use -h for help"
 
 if __name__ == "__main__":
     main()
