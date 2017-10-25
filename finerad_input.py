@@ -91,14 +91,15 @@ def pyrad_to_finerad(filename, outfile, minsample):
 					# Process if locus is variable
 					else:
 
-						# But first check that SNPs (columns) don't contain >25% Ns or -s
+						# But first check that SNPs (columns) don't contain deletions, or more than 50% Ns
 						snp_coords = []
 						for pos in snp_raw_coords:
 							snp = ""
 							for allele in locus:
 								snp += allele[pos]
-							if (snp.count("N")+snp.count("-")) == 0:
-								snp_coords.append(pos)
+							if snp.count("-") == 0:
+								if snp.count("N") <= len(locus)/4:
+									snp_coords.append(pos)
 
 						# Add an empty cell to each sample in haplotypes
 						for sample in haplotypes:
@@ -109,6 +110,10 @@ def pyrad_to_finerad(filename, outfile, minsample):
 							sample = allele.split()[0].strip(">")[:-2]
 							hap = ""
 							hap = "".join([hap+allele[c] for c in snp_coords])
+
+							# Don't add haplotype if it is more than 50% Ns
+							if hap.count("N") >= len(hap)/2:
+								hap = ""
 
 							# Add haplotypes to samples
 							if haplotypes[sample][-1] == "":
@@ -126,13 +131,12 @@ def pyrad_to_finerad(filename, outfile, minsample):
 		if haplotypes[sample].count("") == len(haplotypes[sample]):
 			del haplotypes[sample]
 
-	# Write output
-	output = open(outfile, "w")
-
 	# Write header
+	output = open(outfile, "w")
 	output.write("\t".join(sorted(haplotypes.keys()))+"\n")
 
 	# Write genotypes
+	final_locus_num = 0
 	for l in range(locus_num):
 		genotypes = []
 		for sample in sorted(haplotypes.keys()):
@@ -141,8 +145,9 @@ def pyrad_to_finerad(filename, outfile, minsample):
 		# Final check for minsample
 		if len(genotypes) - genotypes.count("") >= minsample:
 			output.write("\t".join(genotypes)+"\n")
+			final_locus_num += 1
 	output.close()
-	print str(locus_num)+" loci for "+str(len(genotypes))+" samples written to "+outfile
+	print str(final_locus_num)+" loci for "+str(len(genotypes))+" samples written to "+outfile
 
 
 def main():
