@@ -63,68 +63,70 @@ def pyrad_to_finerad(filename, outfile, minsample):
 	# First pass to the file to get all sample names
 	with open(filename) as pyrad_alleles:
 		for line in pyrad_alleles:
-			if not line.startswith("/"):
-				sample = line.split()[0].strip(">")[:-2] # Sample name does not include last two characters
-				if sample not in haplotypes:
-					haplotypes[sample] = []
+			if not line.strip() == "":
+				if not line.startswith("/"):
+					sample = line.split()[0].strip(">")[:-2] # Sample name does not include last two characters
+					if sample not in haplotypes:
+						haplotypes[sample] = []
 
 	# Second pass to the file to parse haplotypes
 	with open(filename) as pyrad_alleles:
 		locus = []
 		locus_num = 0
 		for line in pyrad_alleles:
-			if not line.startswith("/"):
-				locus.append(line.strip("\n"))
-			else:
-
-				# Skip if locus doesn't contain enough samples
-				if len(locus)/2 >= minsample: # Every sample has two lines
-					snp_raw_coords = []
-					for pos in range(len(line)):
-						if line[pos] in ["*","-"]:
-							snp_raw_coords.append(pos)
-
-					# Skip locus if it is invariable
-					if snp_raw_coords == []:
-						locus = []
-
-					# Process if locus is variable
-					else:
-
-						# But first check that SNPs (columns) don't contain deletions, or more than 50% Ns
-						snp_coords = []
-						for pos in snp_raw_coords:
-							snp = ""
-							for allele in locus:
-								snp += allele[pos]
-							if snp.count("-") == 0:
-								if snp.count("N") <= len(locus)/4:
-									snp_coords.append(pos)
-
-						# Add an empty cell to each sample in haplotypes
-						for sample in haplotypes:
-							haplotypes[sample].append("")
-
-						# Fill the last empty cells with the haplotypes
-						for allele in locus:
-							sample = allele.split()[0].strip(">")[:-2]
-							hap = ""
-							hap = "".join([hap+allele[c] for c in snp_coords])
-
-							# Don't add haplotype if it is more than 50% Ns
-							if hap.count("N") >= len(hap)/2:
-								hap = ""
-
-							# Add haplotypes to samples
-							if haplotypes[sample][-1] == "":
-								haplotypes[sample][-1] = hap
-							else:
-								if haplotypes[sample][-1] != hap:
-									haplotypes[sample][-1] = haplotypes[sample][-1]+"/"+hap
-						locus_num += 1
-						locus = []
+			if not line.strip() == "":
+				if not line.startswith("/"):
+					locus.append(line.strip("\n"))
 				else:
-					locus = []
+
+					# Skip if locus doesn't contain enough samples
+					if len(locus)/2 >= minsample: # Every sample has two lines
+						snp_raw_coords = []
+						for pos in range(len(line)):
+							if line[pos] in ["*","-"]:
+								snp_raw_coords.append(pos)
+
+						# Skip locus if it is invariable
+						if snp_raw_coords == []:
+							locus = []
+
+						# Process if locus is variable
+						else:
+
+							# But first check that SNPs (columns) don't contain deletions, or more than 50% Ns
+							snp_coords = []
+							for pos in snp_raw_coords:
+								snp = ""
+								for allele in locus:
+									snp += allele[pos]
+								if snp.count("-") == 0:
+									if snp.count("N") <= len(locus)/4:
+										snp_coords.append(pos)
+
+							# Add an empty cell to each sample in haplotypes
+							for sample in haplotypes:
+								haplotypes[sample].append("")
+
+							# Fill the last empty cells with the haplotypes
+							for allele in locus:
+								sample = allele.split()[0].strip(">")[:-2]
+								hap = ""
+								hap = "".join([hap+allele[c] for c in snp_coords])
+
+								# Don't add haplotype if it is more than 50% Ns
+								if hap.count("N") >= len(hap)/2:
+									hap = ""
+
+								# Add haplotypes to samples
+								if haplotypes[sample][-1] == "":
+									haplotypes[sample][-1] = hap
+								else:
+									if haplotypes[sample][-1] != hap:
+										haplotypes[sample][-1] = haplotypes[sample][-1]+"/"+hap
+							locus_num += 1
+							locus = []
+					else:
+						locus = []
 
 	# Remove samples without data
 	for sample in haplotypes.keys():
