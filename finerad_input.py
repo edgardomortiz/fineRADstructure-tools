@@ -54,7 +54,7 @@ def stacks_to_finerad(filename, outfile, minsample):
 						output.write("\t".join(genotypes)+"\n")
 						locus_num += 1
 	output.close()
-	print str(locus_num)+" loci for "+str(len(genotypes))+" samples written to "+outfile
+	print(str(locus_num)+" loci for "+str(len(genotypes))+" samples written to "+outfile)
 
 
 def pyrad_to_finerad(filename, outfile, minsample):
@@ -149,7 +149,7 @@ def pyrad_to_finerad(filename, outfile, minsample):
 			output.write("\t".join(genotypes)+"\n")
 			final_locus_num += 1
 	output.close()
-	print str(final_locus_num)+" loci for "+str(len(genotypes))+" samples written to "+outfile
+	print(str(final_locus_num)+" loci for "+str(len(genotypes))+" samples written to "+outfile)
 
 
 def main():
@@ -177,7 +177,7 @@ def main():
 	elif "stacks" in data_type.lower() or "haplotypes.tsv" in filename:
 		stacks_to_finerad(filename, outfile, minsample)
 	else:
-		print "Unknown input format, use -h for help"
+		print("Unknown input format, use -h for help")
 
 if __name__ == "__main__":
     main()
