@@ -82,7 +82,7 @@ def pyrad_to_finerad(filename, outfile, minsample):
 					# Skip if locus doesn't contain enough samples
 					if len(locus)/2 >= minsample: # Every sample has two lines
 						snp_raw_coords = []
-						for pos in range(len(line)):
+						for pos in range(len(line.split("|")[0])):
 							if line[pos] in ["*","-"]:
 								snp_raw_coords.append(pos)
 
